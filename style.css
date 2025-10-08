@@ -5,23 +5,25 @@
   box-sizing: border-box;
 }
 
+/* ✅ Page background is now solid */
 body {
-  background: linear-gradient(135deg, #74ebd5, #acb6e5);
+  background: #dce6f0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
+/* ✅ Gradient only inside the card */
 .card {
   width: 90%;
   max-width: 400px;
-  background: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #74ebd5, #acb6e5);
   border-radius: 20px;
   padding: 25px;
   text-align: center;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  color: #fff;
 }
 
 .search {
@@ -39,19 +41,22 @@ body {
   border-radius: 10px;
   outline: none;
   font-size: 16px;
+  background: #ebfffc;
+  color: #333;
 }
 
 .search button {
-  background: #0078ff;
+  background: #ebfffc;
   border: none;
-  border-radius: 10px;
-  padding: 10px 15px;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
   cursor: pointer;
   transition: 0.3s;
 }
 
 .search button:hover {
-  background: #005fcc;
+  background: #d6f9f4;
 }
 
 .search button img {
@@ -80,14 +85,14 @@ body {
 
 .weather .description {
   font-size: 16px;
-  color: #f8f8f8;
+  color: #fff;
   margin-bottom: 8px;
 }
 
 .weather .time {
   font-size: 14px;
   color: #fff;
-  opacity: 0.8;
+  opacity: 0.9;
   margin-bottom: 10px;
 }
 
@@ -96,7 +101,7 @@ body {
   display: none;
   margin-top: 20px;
   text-align: center;
-  color: #333;
+  color: #fff;
 }
 
 .spinner {
@@ -117,9 +122,12 @@ body {
 /* Error Message */
 .error {
   display: none;
-  color: #f33;
+  color: #ffdddd;
   font-weight: 500;
   margin-top: 10px;
+  background: rgba(255, 0, 0, 0.3);
+  padding: 5px;
+  border-radius: 10px;
 }
 
 /* Details Section */

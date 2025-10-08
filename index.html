@@ -86,9 +86,6 @@
         document.querySelector(".description").innerHTML =
           condition.charAt(0).toUpperCase() + condition.slice(1);
 
-
-
-
         const main = data.weather[0].main;
         if (main === "Clouds") weatherIcon.src = "images/clouds.png";
         else if (main === "Clear") weatherIcon.src = "images/clear.png";
