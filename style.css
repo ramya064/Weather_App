@@ -5,7 +5,6 @@
   box-sizing: border-box;
 }
 
-/* ✅ Page background is now solid */
 body {
   background: #dce6f0;
   display: flex;
@@ -14,7 +13,6 @@ body {
   height: 100vh;
 }
 
-/* ✅ Gradient only inside the card */
 .card {
   width: 90%;
   max-width: 400px;
@@ -86,17 +84,17 @@ body {
 .weather .description {
   font-size: 16px;
   color: #fff;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
+.weather .date,
 .weather .time {
   font-size: 14px;
   color: #fff;
   opacity: 0.9;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
-/* Loader Styles */
 .loader {
   display: none;
   margin-top: 20px;
@@ -119,7 +117,6 @@ body {
   100% { transform: rotate(360deg); }
 }
 
-/* Error Message */
 .error {
   display: none;
   color: #ffdddd;
@@ -130,7 +127,6 @@ body {
   border-radius: 10px;
 }
 
-/* Details Section */
 .details {
   display: flex;
   justify-content: space-around;
@@ -151,4 +147,25 @@ body {
 .wind {
   font-size: 18px;
   font-weight: 500;
+}
+
+/* 🌅 Sunrise & Sunset Section */
+.sun-info {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
+.sun {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sun img {
+  width: 30px;
+}
+
+.sun p {
+  font-size: 14px;
 }

@@ -13,20 +13,21 @@
       <button><img src="images/search.png" alt="Search" /></button>
     </div>
 
-    <div class="loader">
-      <div class="spinner"></div>
-      <p>Fetching Weather...</p>
-    </div>
-
-    <div class="error">
+    <div class="error" style="display: none;">
       <p>⚠️ Invalid city name. Try again!</p>
     </div>
 
-    <div class="weather">
+    <!-- Loader Added -->
+    <div class="loader" style="display: none;">
+      <p>⏳ Loading weather...</p>
+    </div>
+
+    <div class="weather" style="display: none;">
       <img src="images/clear.png" class="weather-icon" alt="Weather Icon" />
       <h1 class="temp">--°C</h1>
       <h2 class="city">City</h2>
       <p class="description">Weather condition</p>
+      <p class="date"></p>
       <p class="time"></p>
 
       <div class="details">
@@ -45,6 +46,23 @@
           </div>
         </div>
       </div>
+
+      <div class="sun-info">
+        <div class="sun">
+          <img src="images/sunrise.png" alt="Sunrise" />
+          <div>
+            <p class="sunrise">--:--</p>
+            <p>Sunrise</p>
+          </div>
+        </div>
+        <div class="sun">
+          <img src="images/sunset.png" alt="Sunset" />
+          <div>
+            <p class="sunset">--:--</p>
+            <p>Sunset</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -59,6 +77,19 @@
     const weather = document.querySelector(".weather");
     const errorBox = document.querySelector(".error");
 
+    function formatTime(timestamp, timezone) {
+      const date = new Date((timestamp + timezone) * 1000);
+      const hours = date.getUTCHours().toString().padStart(2, "0");
+      const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+      return `${hours}:${minutes}`;
+    }
+
+    function formatDate(timestamp, timezone) {
+      const date = new Date((timestamp + timezone) * 1000);
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+      return date.toLocaleDateString('en-GB', options);
+    }
+
     async function checkWeather(city) {
       if (!city) return;
 
@@ -67,12 +98,12 @@
       errorBox.style.display = "none";
 
       try {
-        const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+        const response = await fetch(`${apiUrl}${city}&appid=${apiKey}`);
         const data = await response.json();
 
         loader.style.display = "none";
 
-        if (response.status === 404 || !data.name) {
+        if (response.status !== 200 || !data.name) {
           errorBox.style.display = "block";
           return;
         }
@@ -83,18 +114,29 @@
         document.querySelector(".wind").innerHTML = (data.wind.speed * 3.6).toFixed(1) + " km/h";
 
         const condition = data.weather[0].description;
-        document.querySelector(".description").innerHTML =
+        document.querySelector(".description").innerHTML = 
           condition.charAt(0).toUpperCase() + condition.slice(1);
 
         const main = data.weather[0].main;
-        if (main === "Clouds") weatherIcon.src = "images/clouds.png";
-        else if (main === "Clear") weatherIcon.src = "images/clear.png";
-        else if (main === "Rain") weatherIcon.src = "images/rain.png";
-        else if (main === "Drizzle") weatherIcon.src = "images/drizzle.png";
-        else if (main === "Mist" || main === "Fog" || main === "Haze") weatherIcon.src = "images/mist.png";
-        else if (main === "Snow") weatherIcon.src = "images/snow.png";
-        else if (main === "Thunderstorm") weatherIcon.src = "images/thunder.png";
-        else weatherIcon.src = "images/clear.png";
+        const iconMap = {
+          Clouds: "clouds.png",
+          Clear: "clear.png",
+          Rain: "rain.png",
+          Drizzle: "drizzle.png",
+          Mist: "mist.png",
+          Fog: "mist.png",
+          Haze: "mist.png",
+          Snow: "snow.png",
+          Thunderstorm: "thunder.png"
+        };
+        weatherIcon.src = "images/" + (iconMap[main] || "clear.png");
+
+        const timezone = data.timezone;
+        const now = Math.floor(Date.now() / 1000);
+        document.querySelector(".date").innerHTML = formatDate(now, timezone);
+        document.querySelector(".time").innerHTML = "Local Time: " + formatTime(now, timezone);
+        document.querySelector(".sunrise").innerHTML = formatTime(data.sys.sunrise, timezone);
+        document.querySelector(".sunset").innerHTML = formatTime(data.sys.sunset, timezone);
 
         weather.style.display = "block";
       } catch (error) {
